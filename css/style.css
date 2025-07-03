@@ -30,7 +30,6 @@ body {
     cursor: pointer;
     z-index: 2;
     user-select: none;
-    /*transition: color 0.2s;*/
 }
 #prev {
     position: absolute;
