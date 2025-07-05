@@ -1,43 +1,69 @@
-const images = [
-    'images/1.jpg',
-    'images/2.jpg',
-    'images/3.jpg',
-    'images/4.jpg',
-    'images/5.jpg'
-];
-
+const images = []; // масив файлів
 let current = 0;
+
 const img = document.getElementById('slider-image');
 const slider = document.getElementById('slider');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
+const fileInput = document.getElementById('file');
+const form = document.getElementById('form');
+const error = document.getElementById('error');
 
-// Показує зображення за поточним індексом
 function showCurrentImage() {
     img.src = images[current];
+    slider.classList.remove('hide');
 }
-
 function showPrevious() {
     current = (current - 1 + images.length) % images.length;
     showCurrentImage();
 }
-
 function showNext() {
     current = (current + 1) % images.length;
     showCurrentImage();
 }
 
-// Перемикає повноекранний режим
 function toggleFullscreen() {
     slider.classList.toggle('fullscreen');
 }
 
-// Прив’язуємо обробники подій
-function initSlider() {
-    prevBtn.onclick = showPrevious;
-    nextBtn.onclick = showNext;
-    img.onclick = toggleFullscreen;
-    showCurrentImage();
+/**
+ *  Checking the file
+  * @param file
+ * @returns {boolean}
+ */
+function isValidImage(file) {
+    return file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024;
 }
 
-initSlider();
+/**
+ * Обробка форми
+ * @param e
+ */
+form.onsubmit = function (e) {
+    e.preventDefault();
+    const file = fileInput.files[0];
+    if (!file) {
+        error.textContent = "Select a file";
+        return;
+    }
+    if (!isValidImage(file)) {
+        error.textContent = "Error type or size";
+        return;
+    }
+    error.textContent = "";
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        images.push(e.target.result);
+        current = images.length - 1;
+        showCurrentImage();
+    };
+    reader.readAsDataURL(file);
+};
+/**
+ * Initialisation
+ * @type {showPrevious}
+ */
+prevBtn.onclick = showPrevious;
+nextBtn.onclick = showNext;
+img.onclick = toggleFullscreen;
+
