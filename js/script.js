@@ -32,7 +32,7 @@ function toggleFullscreen() {
  * @returns {boolean}
  */
 function isValidImage(file) {
-    return file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024;
+    return file.type.startsWith('image/') && file.size <= 3.1 * 1024 * 1024;
 }
 
 /**
