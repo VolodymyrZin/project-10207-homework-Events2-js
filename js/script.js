@@ -1,4 +1,4 @@
-const images = []; // масив файлів
+const images = [];
 let current = 0;
 
 const img = document.getElementById('slider-image');
